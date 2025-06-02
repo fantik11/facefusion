@@ -4,7 +4,7 @@ from typing import List
 import numpy
 from tqdm import tqdm
 
-from facefusion import inference_manager, state_manager, wording
+from facefusion import inference_manager, state_manager, wording, logger
 from facefusion.download import conditional_download_hashes, conditional_download_sources, resolve_download_url
 from facefusion.filesystem import resolve_relative_path
 from facefusion.thread_helper import conditional_thread_semaphore
@@ -110,6 +110,7 @@ def analyse_video(video_path : str, trim_frame_start : int, trim_frame_end : int
 
 
 def detect_nsfw(vision_frame : VisionFrame) -> List[Score]:
+	logger.info(len(vision_frame))
 	nsfw_scores = []
 	model_size = get_model_options().get('size')
 	temp_vision_frame = fit_frame(vision_frame, model_size)
@@ -122,7 +123,7 @@ def detect_nsfw(vision_frame : VisionFrame) -> List[Score]:
 	if numpy.any(keep_indices):
 		nsfw_scores_raw = nsfw_scores_raw[keep_indices]
 		nsfw_scores = nsfw_scores_raw.ravel().tolist()
-	print(nsfw_scores)
+	logger.info(nsfw_scores)
 
 	# for _ in vision_frame:
 	# 	nsfw_scores.append(Score(1.0))
