@@ -110,7 +110,7 @@ def analyse_video(video_path : str, trim_frame_start : int, trim_frame_end : int
 
 
 def detect_nsfw(vision_frame : VisionFrame) -> List[Score]:
-	logger.info(len(vision_frame))
+	logger.info(len(vision_frame), __name__)
 	nsfw_scores = []
 	model_size = get_model_options().get('size')
 	temp_vision_frame = fit_frame(vision_frame, model_size)
@@ -123,7 +123,7 @@ def detect_nsfw(vision_frame : VisionFrame) -> List[Score]:
 	if numpy.any(keep_indices):
 		nsfw_scores_raw = nsfw_scores_raw[keep_indices]
 		nsfw_scores = nsfw_scores_raw.ravel().tolist()
-	logger.info(nsfw_scores)
+	logger.info(nsfw_scores, __name__)
 
 	# for _ in vision_frame:
 	# 	nsfw_scores.append(Score(1.0))
