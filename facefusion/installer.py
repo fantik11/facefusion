@@ -44,7 +44,7 @@ def run(program : ArgumentParser) -> None:
 		for line in file.readlines():
 			__line__ = line.strip()
 			if not __line__.startswith('onnxruntime'):
-				subprocess.call([ shutil.which('pip'), 'install', line, '--force-reinstall' ])
+				subprocess.call([ shutil.which('pip'), 'install', line ])
 
 	if args.onnxruntime == 'rocm':
 		python_id = 'cp' + str(sys.version_info.major) + str(sys.version_info.minor)
@@ -52,9 +52,9 @@ def run(program : ArgumentParser) -> None:
 		if python_id in [ 'cp310', 'cp312' ]:
 			wheel_name = 'onnxruntime_rocm-' + onnxruntime_version + '-' + python_id + '-' + python_id + '-linux_x86_64.whl'
 			wheel_url = 'https://repo.radeon.com/rocm/manylinux/rocm-rel-6.4/' + wheel_name
-			subprocess.call([ shutil.which('pip'), 'install', wheel_url, '--force-reinstall' ])
+			subprocess.call([ shutil.which('pip'), 'install', wheel_url ])
 	else:
-		subprocess.call([ shutil.which('pip'), 'install', onnxruntime_name + '==' + onnxruntime_version, '--force-reinstall' ])
+		subprocess.call([ shutil.which('pip'), 'install', onnxruntime_name + '==' + onnxruntime_version ])
 
 	if args.onnxruntime == 'cuda' and has_conda:
 		library_paths = []
@@ -87,4 +87,4 @@ def run(program : ArgumentParser) -> None:
 			subprocess.call([ shutil.which('conda'), 'env', 'config', 'vars', 'set', 'PATH=' + os.pathsep.join(library_paths) ])
 
 	if args.onnxruntime == 'directml':
-		subprocess.call([ shutil.which('pip'), 'install', 'numpy==1.26.4', '--force-reinstall' ])
+		subprocess.call([ shutil.which('pip'), 'install', 'numpy==1.26.4' ])
